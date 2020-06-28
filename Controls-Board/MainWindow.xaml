@@ -19,6 +19,7 @@
 
                 <Button Style="{StaticResource CommonButton}" Content="−" x:Name="MinimizeButton" Width="40" Height="30" Margin="0,0,5,0"  HorizontalAlignment="Right" Click="MinimizeButton_Click" />
                 <Button Style="{StaticResource CommonButton}" Content="□" x:Name="MaximizeButton" Width="40" Height="30" Margin="0,0,5,0" HorizontalAlignment="Right" Click="MaximizeButton_Click"/>
+                
                 <Button Style="{StaticResource WarningButton}" Content="✕"  x:Name="ExitButton" Width="40" Height="30" HorizontalAlignment="Right" Click="ExitButton_Click"/>
 
             </StackPanel>
@@ -46,12 +47,18 @@
                             <Style TargetType="Button">
                                 <Setter Property="FontSize" Value="20"/>
                                 <Setter Property="Padding" Value="3,0,4,0"/>
+                                <Setter Property="BorderBrush" Value="{x:Null}"/>
                             </Style>
                         </Border.Resources>
                         <StackPanel Orientation="Horizontal">
-                            <Button Content="Save"/>
-                            <Button Content="Open"/>
-                            <Button Content="Capture"/>
+                            <StackPanel Orientation="Vertical" Width="100">
+                                <Button Click="SaveCanvasBtn_Clicked" Content="Save" Height="45"/>
+                                <Button Click="OpenCanvasBtn_Clicked" Content="Open" Height="45"/>     
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Width="90">
+                                <Button Click="RecordCanvasBtn_Clicked" Content="Record" Height="45"/>
+                                <Button Click="CaptureCanvasBtn_Clicked" Content="Capture" Height="45"/>
+                            </StackPanel>
                         </StackPanel>
                     </Border>
                     <Border BorderThickness="2" Width="90" Padding="3,3,3,3" BorderBrush="{StaticResource BorderColor}" >
@@ -62,18 +69,20 @@
                                 <Setter Property="Margin" Value="0,5,0,0"/>
                             </Style>
                         </Border.Resources>
-                        <StackPanel Orientation="Vertical">
-                            <RadioButton Content="Pen" IsChecked="True" />
-                            <RadioButton Content="Eraser"/>
-                            <RadioButton Content="Fill"/>
+                        <StackPanel x:Name="DrawTools" Orientation="Vertical">
+                            <RadioButton Tag="Pen" Checked="DrawTools_Selected" Content="Pen" IsChecked="True" />
+                            <RadioButton Tag="Eraser" Checked="DrawTools_Selected" Content="Eraser"/>
+                            <RadioButton Tag="Fill" Checked="DrawTools_Selected" Content="Fill"/>
                         </StackPanel>
                     </Border>
-                    <Border BorderThickness="2" Width="115" Padding="3,3,3,3" BorderBrush="{StaticResource BorderColor}" >
+                    <Border BorderThickness="2" Width="80" Padding="3,3,3,3" BorderBrush="{StaticResource BorderColor}" >
                         <StackPanel Orientation="Horizontal">
                             <Border Width="70" BorderThickness="1" BorderBrush="Black" Height="70">
-                                <Grid Background="White"/>
+                                <Grid x:Name="PenColor" Background="White">
+                                    <TextBlock TextAlignment="Center" Text="Pen" Height="18" Width="25" Background="White"/>
+                                </Grid>
                             </Border>
-                            <TextBlock Text="Pen" Height="18" Width="25"/>
+
                         </StackPanel>
                     </Border>
                     <Border BorderThickness="2" Width="240" Padding="3,3,3,3" BorderBrush="{StaticResource BorderColor}" >
@@ -92,25 +101,27 @@
                             </StackPanel.Resources>
                             <Border>
                                 <Grid x:Name="Palette1" Background="White">
-                                    <TextBlock Text="1" Height="18" Width="25"/>
+                                    <TextBlock Text="1" Height="18" Width="25" Background="White"/>
                                 </Grid>
                             </Border>
                             <Border>
                                 <Grid x:Name="Palette2" Background="White">
-                                    <TextBlock Text="2" Height="18" Width="25"/>
+                                    <TextBlock Text="2" Height="18" Width="25" Background="White"/>
                                 </Grid>
                             </Border>
                             <Border>
                                 <Grid x:Name="Palette3" Background="White">
-                                    <TextBlock Text="3" Height="18" Width="25"/>
+                                    <TextBlock Text="3" Height="18" Width="25" Background="White"/>
                                 </Grid>
                             </Border>
                         </StackPanel>
                     </Border>
-                    <Border BorderThickness="2" Width="165" Padding="3,3,3,3" BorderBrush="{StaticResource BorderColor}" >
-                        <StackPanel Orientation="Horizontal">
-                            <Button Margin="0,0,5,0" Content="Pick" Width="80" Click="OpenColorPicker_Clicked"></Button>
-                            <TextBlock Text="Color Picker" Height="18" Width="69"/>
+                    <Border BorderThickness="2" Width="80" Padding="3,3,3,3" BorderBrush="{StaticResource BorderColor}" >
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="70" Margin="0,9,0,6">
+
+                            <Button Content="Pick" Click="OpenColorPicker_Clicked" BorderBrush="{x:Null}" Background="#FFECECEC" Foreground="Black" Width="66" Height="45"/>
+                            <TextBlock Text="Pick a Color" TextAlignment="Center" Width="64" FontSize="11"/>
+
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -121,8 +132,7 @@
 
                 </StackPanel>
             </Grid>
-            <Canvas Style="{StaticResource Board}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1">
-
+            <Canvas MouseEnter="DrawCanvas_MouseEnter" MouseLeave="DrawCanvas_MouseLeave" x:Name="DrawCanvas" Style="{StaticResource Board}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1" MouseMove="Canvas_MouseMove" MouseLeftButtonDown="DrawCanvas_MouseLeftButtonDown" MouseLeftButtonUp="DrawCanvas_MouseLeftButtonUp">
             </Canvas>
         </Grid>
     </Grid>
