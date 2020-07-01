@@ -45,7 +45,7 @@
                     <Border Width="190">
                         <Border.Resources>
                             <Style TargetType="Button">
-                                <Setter Property="FontSize" Value="20"/>
+                                <Setter Property="FontSize" Value="17"/>
                                 <Setter Property="Padding" Value="3,0,4,0"/>
                                 <Setter Property="BorderBrush" Value="{x:Null}"/>
                             </Style>
@@ -72,7 +72,6 @@
                         <StackPanel x:Name="DrawTools" Orientation="Vertical">
                             <RadioButton Tag="Pen" Checked="DrawTools_Selected" Content="Pen" IsChecked="True" />
                             <RadioButton Tag="Eraser" Checked="DrawTools_Selected" Content="Eraser"/>
-                            <RadioButton Tag="Fill" Checked="DrawTools_Selected" Content="Fill"/>
                         </StackPanel>
                     </Border>
                     <Border BorderThickness="2" Width="80" Padding="3,3,3,3" BorderBrush="{StaticResource BorderColor}" >

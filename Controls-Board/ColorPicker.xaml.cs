@@ -64,7 +64,6 @@ namespace Controls_Board
                 var x = e.GetPosition(SpectrumGrid).X;
                 SpectrumGridBar.Margin = new Thickness(x, 0, 0, 0);
                 currH = 360 * (x / this.Width);
-                Debug.WriteLine(currH);
                 MiddleStop.Color = HSV.RGBFromHSV(currH, 1f, 1f).Color();
             }
         }

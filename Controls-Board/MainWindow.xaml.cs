@@ -79,9 +79,6 @@ namespace Controls_Board
                 case "Eraser":
                     selectedTool = Drawing.DrawTool.Eraser;
                     break;
-                case "Fill":
-                    selectedTool = Drawing.DrawTool.Fill;
-                    break;
                 default:
                     selectedTool = Drawing.DrawTool.None; //Something Bug
                     MessageBox.Show("Something must not be happen happened");
@@ -91,24 +88,28 @@ namespace Controls_Board
 
         private void DrawCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (!pen.IsUp)
-                return;
-
-            pen.Stroke = selectedTool == Drawing.DrawTool.Eraser ? Brushes.White : currPenColor;
-            pen.StrokeThickness = selectedTool == Drawing.DrawTool.Eraser ? 5f : 3f;
-            pen.Down();
+            if (pen.IsUp)
+            {
+                pen.Stroke = selectedTool == Drawing.DrawTool.Eraser ? Brushes.White : currPenColor;
+                pen.StrokeThickness = selectedTool == Drawing.DrawTool.Eraser ? 5f : 3f;
+                pen.Down();
+            }
+            
         }
         private void DrawCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             //Add Command
             if (pen.IsUp)
                 return;
-
+            
             capturer.Add(pen.Up());
         }
         private void DrawCanvas_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (pen.IsUp && e.LeftButton == MouseButtonState.Pressed)
+            if (e.LeftButton != MouseButtonState.Pressed)
+                return;
+            
+            if (pen.IsUp)
                 pen.Down();
         }
         private void DrawCanvas_MouseLeave(object sender, MouseEventArgs e)
@@ -162,15 +163,15 @@ namespace Controls_Board
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
 
-            if (e.Key == Key.R) //Debuging ------- Revers all IDrawables
+            if (e.Key == Key.Z && Keyboard.IsKeyDown(Key.LeftCtrl))
             {
-                DrawCanvas.Children.Clear(); //Temp clearing
-
-                foreach (var d in capturer.Draws)
-                {
-                    d.Draw();
-                }
+                capturer.Undo();
             }
+            if (e.Key == Key.Y && Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                capturer.Redo();
+            }
+
             if (e.Key == Key.D1)
             {
                 var border = VisualTreeHelper.GetParent(Palette1) as Border;
