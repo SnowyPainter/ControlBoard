@@ -46,7 +46,6 @@ namespace Controls_Board.Drawing
             mousePoint = e.GetPosition(target);
             polyLine.Points.Add(mousePoint);
         }
-
         public void Down()
         {
             if (!IsUp)
@@ -66,7 +65,7 @@ namespace Controls_Board.Drawing
 
             IsUp = true;
 
-            var stroke = new OneStroke(target, polyLine, DateTime.Now);
+            var stroke = new LineStroke(target, polyLine, DateTime.Now);
 
             return stroke;
         }

@@ -7,12 +7,12 @@ using System.Windows.Shapes;
 
 namespace Controls_Board.Drawing
 {
-    public class OneStroke : IDrawable
+    public class LineStroke : IDrawable
     {
         public DateTime DrewTime { get; private set; }
         private Canvas canvas;
         private Polyline line;
-        public OneStroke(Canvas target, Polyline line, DateTime time)
+        public LineStroke(Canvas target, Polyline line, DateTime time)
         {
             DrewTime = time;
             canvas = target;
@@ -21,6 +21,10 @@ namespace Controls_Board.Drawing
         public void Draw()
         {
             canvas.Children.Add(line);
+        }
+        public void Delete()
+        {
+            canvas.Children.Remove(this.line);
         }
     }
 }

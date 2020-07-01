@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Controls_Board.Drawing
@@ -8,12 +9,13 @@ namespace Controls_Board.Drawing
     {
         Pen,
         Eraser,
-        Fill,
         None
     }
     public class Capturer
     {
         public List<IDrawable> Draws { get; private set; }
+
+        public int Seek { get; private set; } = 0;
 
         public Capturer()
         {
@@ -22,7 +24,25 @@ namespace Controls_Board.Drawing
 
         public void Add(IDrawable drawable)
         {
-            Draws.Add(drawable);
+            Draws.Insert(Seek,drawable);
+            Seek++;
+        }
+
+        public void Redo()
+        {
+            if (Draws.Count <= Seek)
+                return;
+            
+            Draws[Seek].Draw();
+            Seek++;
+        }
+        public void Undo()
+        {
+            if (0 >= Seek)
+                return;
+
+            Draws[Seek-1].Delete();
+            Seek--;
         }
 
         public int DrawCount() => Draws.Count;

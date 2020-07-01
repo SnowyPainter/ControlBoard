@@ -8,5 +8,6 @@ namespace Controls_Board.Drawing
     {
         public DateTime DrewTime { get;}
         public void Draw();
+        public void Delete();
     }
 }
