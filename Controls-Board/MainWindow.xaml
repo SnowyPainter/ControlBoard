@@ -14,12 +14,13 @@
         <Grid Grid.Row="0" HorizontalAlignment="Stretch" Background="{StaticResource Background}" MouseDown="Window_MouseDown">
             <StackPanel Orientation="Horizontal" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Button Style="{StaticResource CommonButton}" Content="⚙️" x:Name="SettingButton" Width="40" Height="30" HorizontalAlignment="Right" Click="OpenPropertyButton_Click"/>
+                <Button Style="{StaticResource CommonButton}" Content="Save To Image" x:Name="SaveImageBtn" Width="95" Height="30" Click="SaveCanvasToImageBtn_Clicked"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top">
 
                 <Button Style="{StaticResource CommonButton}" Content="−" x:Name="MinimizeButton" Width="40" Height="30" Margin="0,0,5,0"  HorizontalAlignment="Right" Click="MinimizeButton_Click" />
                 <Button Style="{StaticResource CommonButton}" Content="□" x:Name="MaximizeButton" Width="40" Height="30" Margin="0,0,5,0" HorizontalAlignment="Right" Click="MaximizeButton_Click"/>
-                
+
                 <Button Style="{StaticResource WarningButton}" Content="✕"  x:Name="ExitButton" Width="40" Height="30" HorizontalAlignment="Right" Click="ExitButton_Click"/>
 
             </StackPanel>
@@ -53,7 +54,7 @@
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Vertical" Width="100">
                                 <Button Click="SaveCanvasBtn_Clicked" Content="Save" Height="45"/>
-                                <Button Click="OpenCanvasBtn_Clicked" Content="Open" Height="45"/>     
+                                <Button Click="OpenCanvasBtn_Clicked" Content="Open" Height="45"/>
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Width="90">
                                 <Button Click="RecordCanvasBtn_Clicked" Content="Record" Height="45"/>

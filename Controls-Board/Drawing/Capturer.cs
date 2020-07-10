@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Windows.Controls;
 
 namespace Controls_Board.Drawing
 {
@@ -22,8 +23,21 @@ namespace Controls_Board.Drawing
             Draws = new List<IDrawable>();
         }
 
+        public void ResetAndDrawAll(int seek, List<IDrawable> draws)
+        {
+            Seek = seek;
+            Draws = draws;
+            for(int i = 0;i < Seek;i++)
+            {
+                Draws[i].Draw();
+            }
+        }
+
         public void Add(IDrawable drawable)
         {
+            if (drawable == null)
+                return;
+
             Draws.Insert(Seek,drawable);
             Seek++;
         }

@@ -1,4 +1,5 @@
-﻿using Controls_Board.Extensions;
+﻿using Controls_Board.CTRBFormat;
+using Controls_Board.Extensions;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace Controls_Board
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-   
+
     public partial class MainWindow : Window
     {
         private void InitPalettes()
@@ -59,19 +60,20 @@ namespace Controls_Board
             get { return selectedPalette.Background; }
         }
         private Grid selectedPalette { get; set; } //Auto set every key down occuring
-        
+
         private Drawing.Capturer capturer { get; set; }
         private Drawing.Pen pen { get; set; }
 
         private void DrawTools_Selected(object sender, RoutedEventArgs e)
         {
             var radioBtn = (RadioButton)sender;
-            if (radioBtn == null) {
+            if (radioBtn == null)
+            {
                 selectedTool = Drawing.DrawTool.None;
                 return;
             }
-            
-            switch(radioBtn.Tag)
+
+            switch (radioBtn.Tag)
             {
                 case "Pen":
                     selectedTool = Drawing.DrawTool.Pen;
@@ -94,21 +96,21 @@ namespace Controls_Board
                 pen.StrokeThickness = selectedTool == Drawing.DrawTool.Eraser ? 5f : 3f;
                 pen.Down();
             }
-            
+
         }
         private void DrawCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             //Add Command
             if (pen.IsUp)
                 return;
-            
+
             capturer.Add(pen.Up());
         }
         private void DrawCanvas_MouseEnter(object sender, MouseEventArgs e)
         {
             if (e.LeftButton != MouseButtonState.Pressed)
                 return;
-            
+
             if (pen.IsUp)
                 pen.Down();
         }
@@ -207,14 +209,14 @@ namespace Controls_Board
 
         private void SetWindowState(WindowState state)
         {
-            if(state == WindowState.Maximized && currentState == WindowState.Maximized)
+            if (state == WindowState.Maximized && currentState == WindowState.Maximized)
             {
                 this.Width = currWidth;
                 this.Height = currHeight;
                 WindowState = WindowState.Normal;
                 return;
             }
-            else if(state == WindowState.Maximized && currentState != WindowState.Maximized)
+            else if (state == WindowState.Maximized && currentState != WindowState.Maximized)
             {
                 currWidth = Width;
                 currHeight = Height;
@@ -236,6 +238,30 @@ namespace Controls_Board
         }
         private void SaveCanvasBtn_Clicked(object sender, RoutedEventArgs e)
         {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.FileName = DateTime.Now.ToString("yyyyMMddHHmmss");
+            saveFileDialog.Filter = "CTRB File (*.ctrb) | *.ctrb";
+            if (saveFileDialog.ShowDialog() == true && CTRBFormat.CTRB.Save(capturer, saveFileDialog.FileName))
+            {
+                MessageBox.Show("Successfully saved!");
+            }
+
+        }
+        private void OpenCanvasBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "CTRB File (*.ctrb) | *.ctrb";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                DrawCanvas.Children.Clear();
+                var structure = CTRBFormat.CTRB.OpenToCanvas(openFileDialog.FileName, DrawCanvas);
+                capturer.ResetAndDrawAll(structure.Seek, structure.Controls.ToList());
+            }
+
+        }
+        //Save Canvas to Image
+        private void SaveCanvasToImageBtn_Clicked(object sender, RoutedEventArgs e)
+        {
             var png = DrawCanvas.ToBitmap().ToPng();
 
             var saveFileDialog = new SaveFileDialog();
@@ -247,23 +273,19 @@ namespace Controls_Board
                 {
                     png.Save(fileStream);
                 }
+                MessageBox.Show("Successfully saved to Image file.");
             }
-        }
-
-        private void OpenCanvasBtn_Clicked(object sender, RoutedEventArgs e)
-        {
-            //Open jpg(picture file) or own extended file( ex) .cb)
         }
 
         private void RecordCanvasBtn_Clicked(object sender, RoutedEventArgs e)
         {
-            if(currentState != WindowState.Maximized)
+
+            if (currentState != WindowState.Maximized)
             {
-                var result = MessageBox.Show("The result of recording will be low quality. Is it ok?","Wrong",MessageBoxButton.OKCancel);
+                var result = MessageBox.Show("The result of recording will be low quality.", "Is it ok?", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.Cancel)
                     return;
             }
-
 
         }
 

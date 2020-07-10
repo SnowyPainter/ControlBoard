@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,6 +23,8 @@ namespace Controls_Board.Drawing
             get { return polyLine.StrokeThickness; }
             set { strokeThickness = value; } 
         }
+
+        public int IgnoreDrawingRange { get; set; } = 5;
 
         public bool IsUp { get; private set; } = true;
         private Brush stroke;
@@ -64,6 +68,12 @@ namespace Controls_Board.Drawing
                 throw new DrawingException("Up method called after up");
 
             IsUp = true;
+
+            if (mousePoint == null || polyLine.Points.Count < IgnoreDrawingRange)
+            {
+                return null;
+            }
+                
 
             var stroke = new LineStroke(target, polyLine, DateTime.Now);
 
