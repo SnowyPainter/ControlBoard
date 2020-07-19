@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="Controls_Board.ControlItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Controls_Board"
+             mc:Ignorable="d" Height="35" Width="200">
+    <Grid x:Name="Grid" Height="35" Background="{StaticResource ItemElementColor}" ToolTipService.InitialShowDelay="1000" ToolTipService.ShowDuration="3000" ToolTipService.BetweenShowDelay="10000" >
+        <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+            <Image x:Name="IconImage" Width="50"></Image>
+            <TextBlock x:Name="NameTitle" Foreground="{StaticResource Foreground}" FontSize="15" VerticalAlignment="Center" TextAlignment="Left"  Margin="10,0,0,0"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
