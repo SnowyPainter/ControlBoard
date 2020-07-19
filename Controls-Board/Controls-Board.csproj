@@ -8,7 +8,44 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Icons\captureicon.png" />
+    <None Remove="Icons\openicon.png" />
+    <None Remove="Icons\recordoff.png" />
+    <None Remove="Icons\recordon.png" />
+    <None Remove="Icons\reloadicon.png" />
+    <None Remove="Icons\saveicon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Icons\captureicon.png" />
+    <Resource Include="Icons\openicon.png" />
+    <Resource Include="Icons\recordoff.png" />
+    <Resource Include="Icons\recordon.png" />
+    <Resource Include="Icons\reloadicon.png" />
+    <Resource Include="Icons\saveicon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="MessageBox\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ControlStructureProperty.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ControlStructureProperty.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="ControlStructureProperty.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ControlStructureProperty.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
