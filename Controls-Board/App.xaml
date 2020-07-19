@@ -5,8 +5,10 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <SolidColorBrush x:Key="Background">#57391E</SolidColorBrush>
-        <SolidColorBrush x:Key="Foreground">#F2CE94</SolidColorBrush>
+        <SolidColorBrush x:Key="Foreground">#2b2706</SolidColorBrush>
         <SolidColorBrush x:Key="BoardColor">#FFFFFF</SolidColorBrush>
+        <SolidColorBrush x:Key="ItemElementColor">#ffcf75</SolidColorBrush>
+        <SolidColorBrush x:Key="ItemElementStrong">#fac155</SolidColorBrush>
         <SolidColorBrush x:Key="PanelColor">#FFFFF5E4</SolidColorBrush>
         <SolidColorBrush x:Key="BorderColor">#CCA85A</SolidColorBrush>
 
