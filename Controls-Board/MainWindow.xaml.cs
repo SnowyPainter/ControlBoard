@@ -1,6 +1,8 @@
 ﻿using Controls_Board.CTRBFormat;
 using Controls_Board.Extensions;
 using Microsoft.Win32;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -42,12 +44,71 @@ namespace Controls_Board
             capturer = new Drawing.Capturer();
             pen = new Drawing.Pen(DrawCanvas);
         }
+
+        private void InitCommonControlsList()
+        {
+            if (!Directory.Exists($"./{ControlStructureProperty.IconDirectory}"))
+                Directory.CreateDirectory(ControlStructureProperty.IconDirectory);
+            if (!File.Exists(ControlStructureProperty.Path))
+            {
+                MessageBox.Show("It couldn't find its control structure.\nPlease visit https://github.com/snowypainter/Control-Board");
+                return;
+            }
+
+            var ctrlStruct = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(ControlStructureProperty.Path));
+
+            if (ctrlStruct.ContainsKey(ControlStructureProperty.Basics)
+                    && ctrlStruct[ControlStructureProperty.Basics].Count() >= 1)
+            {
+                var controls = ctrlStruct[ControlStructureProperty.Basics];
+                foreach (var data in controls)
+                {
+                    var control = new ControlItem
+                    {
+                        ControlName = data[ControlStructureProperty.Name].ToString(),
+                        ControlIcon =
+                            new BitmapImage(new Uri(@$"{Directory.GetCurrentDirectory()}/{ControlStructureProperty.IconDirectory}/{data[ControlStructureProperty.Icon]}")),
+                        Description = data[ControlStructureProperty.Description].ToString()
+                    };
+
+                    control.MouseLeftButtonUp += new MouseButtonEventHandler(ControlItem_Selected);
+
+                    ControlListPanel.Children.Add(control);
+                }
+            }
+            if (ctrlStruct.ContainsKey(ControlStructureProperty.Customs)
+                    && ctrlStruct[ControlStructureProperty.Customs].Count() >= 1)
+            {
+
+            }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
 
             InitPalettes();
             InitTools();
+            InitCommonControlsList();
+        }
+        //Initals
+        private void ReloadControls_Clicked(object sender, RoutedEventArgs e)
+        {
+            InitCommonControlsList();
+        }
+
+        //******************
+        //Control Lists
+        //******************
+        ControlItem selected = null;
+        private void ControlItem_Selected(object sender, MouseEventArgs e)
+        {
+            if (selected != null)
+                selected.Background = (SolidColorBrush)Application.Current.Resources["ItemElementColor"];
+
+            selected = sender as ControlItem;
+
+            selected.Background = (SolidColorBrush)App.Current.Resources["ItemElementStrong"];
         }
         //*******************
         //Canvas
@@ -236,6 +297,11 @@ namespace Controls_Board
         {
             this.DragMove();
         }
+        private void ClearCanvasAndCapturer_MouseUp(object sender, RoutedEventArgs e)
+        {
+            capturer = new Drawing.Capturer();
+            DrawCanvas.Children.Clear();
+        }
         private void SaveCanvasBtn_Clicked(object sender, RoutedEventArgs e)
         {
             var saveFileDialog = new SaveFileDialog();
@@ -259,24 +325,6 @@ namespace Controls_Board
             }
 
         }
-        //Save Canvas to Image
-        private void SaveCanvasToImageBtn_Clicked(object sender, RoutedEventArgs e)
-        {
-            var png = DrawCanvas.ToBitmap().ToPng();
-
-            var saveFileDialog = new SaveFileDialog();
-            saveFileDialog.FileName = DateTime.Now.ToString("yyyy_MM_dd_HHmmss");
-            saveFileDialog.Filter = "Png File (*.png) | *.png";
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                using (Stream fileStream = File.Create(saveFileDialog.FileName))
-                {
-                    png.Save(fileStream);
-                }
-                MessageBox.Show("Successfully saved to Image file.");
-            }
-        }
-
         private void RecordCanvasBtn_Clicked(object sender, RoutedEventArgs e)
         {
 
