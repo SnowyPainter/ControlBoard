@@ -100,15 +100,24 @@ namespace Controls_Board
         //******************
         //Control Lists
         //******************
-        ControlItem selected = null;
+        private ControlItem currSelected = null;
+        private SolidColorBrush listItemColor = (SolidColorBrush)Application.Current.Resources["ItemElementColor"];
+        private SolidColorBrush listItemSelectedColor = (SolidColorBrush)Application.Current.Resources["ItemElementStrong"];
         private void ControlItem_Selected(object sender, MouseEventArgs e)
         {
-            if (selected != null)
-                selected.Background = (SolidColorBrush)Application.Current.Resources["ItemElementColor"];
+            var select = (sender as ControlItem);
 
-            selected = sender as ControlItem;
+            if (currSelected != null)
+                currSelected.Background = listItemColor;
+            if(currSelected == select)
+            {
+                select.Background = listItemColor;
+                currSelected = null;
+                return;
+            }
 
-            selected.Background = (SolidColorBrush)App.Current.Resources["ItemElementStrong"];
+            currSelected = select;
+            currSelected.Background = listItemSelectedColor;
         }
         //*******************
         //Canvas
@@ -154,7 +163,7 @@ namespace Controls_Board
             if (pen.IsUp)
             {
                 pen.Stroke = selectedTool == Drawing.DrawTool.Eraser ? Brushes.White : currPenColor;
-                pen.StrokeThickness = selectedTool == Drawing.DrawTool.Eraser ? 5f : 3f;
+                pen.StrokeThickness = EraseThickSlider.Value; //selectedTool == Drawing.DrawTool.Eraser ? 5f : 3f;
                 pen.Down();
             }
 
@@ -220,9 +229,8 @@ namespace Controls_Board
                 return WindowState;
             }
         }
-
         private double currWidth, currHeight;
-        //ShortCut Keys binding -> proccess
+
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
 

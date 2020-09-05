@@ -33,7 +33,7 @@ namespace Controls_Board.CTRBFormat
             using(var reader = new StreamReader(filestream))
             {
                 string line;
-                List<IDrawable> ctrls = new List<IDrawable>();
+                List<Drawable> ctrls = new List<Drawable>();
                 while ((line = reader.ReadLine()) != null)
                 {
                     var onlyContent = line.Substring(1);
@@ -53,7 +53,7 @@ namespace Controls_Board.CTRBFormat
                         var drewTime = DateTime.ParseExact(c.DateTime, DateTimeFormat, null);
                         var element = XamlReader.Parse(c.XamlElement) as FrameworkElement;
                         
-                        ctrls.Add(new BasicDraw(currCanvas, element, drewTime));
+                        ctrls.Add(new Drawable(currCanvas, element, drewTime));
                     }
                     else
                     {

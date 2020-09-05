@@ -18,7 +18,7 @@
                 <Button Style="{StaticResource CommonButton}" Content="Reload Controls" x:Name="ReloadCtrlsBtn" Width="100" Click="ReloadControls_Clicked"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top">
-                
+
                 <Button Style="{StaticResource CommonButton}" Content="−" x:Name="MinimizeButton" Width="40" Height="30" Margin="0,0,5,0"  HorizontalAlignment="Right" Click="MinimizeButton_Click" />
                 <Button Style="{StaticResource CommonButton}" Content="□" x:Name="MaximizeButton" Width="40" Height="30" Margin="0,0,5,0" HorizontalAlignment="Right" Click="MaximizeButton_Click"/>
 
@@ -77,7 +77,7 @@
                                 </StackPanel>
                             </StackPanel>
                         </Border>
-                        <Border BorderThickness="2" Width="95" Padding="3,3,3,3" BorderBrush="{StaticResource BorderColor}" >
+                        <Border BorderThickness="2" Width="89" Padding="3,3,3,3" BorderBrush="{StaticResource BorderColor}" >
                             <Border.Resources>
                                 <Style TargetType="RadioButton">
                                     <Setter Property="FontSize" Value="15" />
@@ -85,11 +85,23 @@
                                     <Setter Property="Margin" Value="0,0,0,5"/>
                                 </Style>
                             </Border.Resources>
-                            <StackPanel x:Name="DrawTools" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+                            <StackPanel x:Name="DrawTools" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Height="52" Width="70">
                                 <RadioButton Tag="Pen" Checked="DrawTools_Selected" Content="Pen" IsChecked="True" />
-                                <RadioButton Tag="Eraser" Checked="DrawTools_Selected" Content="Eraser"/>
-                                <Grid x:Name="PenColor" Background="White" Height="29" Width="76">
-                                </Grid>
+                                <RadioButton Tag="Eraser" Checked="DrawTools_Selected" Content="Eraser" Width="69"/>
+
+                            </StackPanel>
+                        </Border>
+                        <Border BorderThickness="2" Width="105" Padding="3,3,3,3" BorderBrush="{StaticResource BorderColor}" >
+                            <Border.Resources>
+                                <Style TargetType="RadioButton">
+                                    <Setter Property="FontSize" Value="15" />
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                    <Setter Property="Margin" Value="0,0,0,5"/>
+                                </Style>
+                            </Border.Resources>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Height="64" Width="86">
+                                <Grid x:Name="PenColor" Background="White" Height="30" Width="80"/>
+                                <Slider x:Name="EraseThickSlider" Maximum="50" Minimum="2" Margin="0,8,0,0" Value="2" Width="77" Height="20"/>
                             </StackPanel>
                         </Border>
                         <Border BorderThickness="2" Width="230" Padding="3,3,3,3" BorderBrush="{StaticResource BorderColor}" >

@@ -62,7 +62,7 @@ namespace Controls_Board.Drawing
             IsUp = false;
         }
 
-        public IDrawable Up()
+        public Drawable Up()
         {
             if (IsUp)
                 throw new DrawingException("Up method called after up");

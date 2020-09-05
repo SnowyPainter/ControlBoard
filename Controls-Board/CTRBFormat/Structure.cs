@@ -31,7 +31,7 @@ namespace Controls_Board.CTRBFormat
          */
 
         public int Seek { get; set; }
-        public IDrawable[] Controls { get; set; } 
+        public Drawable[] Controls { get; set; } 
 
         public string Built { get; private set; }
 
@@ -39,7 +39,7 @@ namespace Controls_Board.CTRBFormat
         {
 
         }
-        public Structure(int seek, IDrawable[] ctrls)
+        public Structure(int seek, Drawable[] ctrls)
         {
             Seek = seek;
             Controls = ctrls;

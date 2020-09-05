@@ -16,26 +16,19 @@ namespace Controls_Board.Drawing
         Circle,
     }
 
-    public interface IDrawable
+    public class Drawable
     {
         public Canvas Canvas { get; }
         public FrameworkElement Element { get; }
         public DateTime DrewTime { get;}
-        public void Draw();
-        public void Delete();
-        public string ToCtrb();
-    }
-    public class BasicDraw:IDrawable
-    {
-        public Canvas Canvas { get; set; }
-        public FrameworkElement Element { get; }
-        public DateTime DrewTime { get; }
-        public BasicDraw(Canvas target, FrameworkElement obj, DateTime time)
+
+        public Drawable(Canvas canvas, FrameworkElement element, DateTime drewTime)
         {
-            DrewTime = time;
-            Canvas = target;
-            Element = obj;
+            Canvas = canvas;
+            Element = element;
+            DrewTime = drewTime;
         }
+
         public void Draw()
         {
             Canvas.Children.Add(Element);
@@ -48,6 +41,5 @@ namespace Controls_Board.Drawing
         {
             return $"{XamlWriter.Save(Element)}";
         }
-
     }
 }

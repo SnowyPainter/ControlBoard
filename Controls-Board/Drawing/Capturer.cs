@@ -14,16 +14,16 @@ namespace Controls_Board.Drawing
     }
     public class Capturer
     {
-        public List<IDrawable> Draws { get; private set; }
+        public List<Drawable> Draws { get; private set; }
 
         public int Seek { get; private set; } = 0;
 
         public Capturer()
         {
-            Draws = new List<IDrawable>();
+            Draws = new List<Drawable>();
         }
 
-        public void ResetAndDrawAll(int seek, List<IDrawable> draws)
+        public void ResetAndDrawAll(int seek, List<Drawable> draws)
         {
             Seek = seek;
             Draws = draws;
@@ -33,7 +33,7 @@ namespace Controls_Board.Drawing
             }
         }
 
-        public void Add(IDrawable drawable)
+        public void Add(Drawable drawable)
         {
             if (drawable == null)
                 return;

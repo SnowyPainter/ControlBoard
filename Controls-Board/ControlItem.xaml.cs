@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Controls_Board.Drawing;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -39,6 +40,8 @@ namespace Controls_Board
         }
 
         public string Description { get { return Grid.ToolTip.ToString(); } set { Grid.ToolTip = value; } }
+        
+        public Drawable Draw { get; set; }
 
         public ControlItem()
         {
