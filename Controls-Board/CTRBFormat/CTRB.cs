@@ -8,12 +8,15 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
+using System.Windows.Shapes;
 
 namespace Controls_Board.CTRBFormat
 {
     public static class CTRB
     {
+        public static string HeaderLineStroke = "ls";
         public static string DateTimeFormat = "yyyyMMddHHmmss";
+        
         private static Property SplitToProperty(string line)
         {
             var splited = line.Split("=");
@@ -23,6 +26,11 @@ namespace Controls_Board.CTRBFormat
         {
             int lastIdx = line.LastIndexOf("/");
             return new Control { DateTime = line.Substring(lastIdx+1), XamlElement = line.Substring(0, lastIdx) };
+        }
+
+        private static string[] SplitFromLineStroke(string onlyContent)
+        {
+            return onlyContent.Split("+");
         }
 
         public static Structure OpenToCanvas(string path, Canvas currCanvas)
@@ -51,8 +59,19 @@ namespace Controls_Board.CTRBFormat
                     {
                         var c = SplitToControl(onlyContent);
                         var drewTime = DateTime.ParseExact(c.DateTime, DateTimeFormat, null);
+                        if(c.XamlElement.Split(' ')[0] == HeaderLineStroke) //Special
+                        {
+                            c.XamlElement = c.XamlElement.Substring(HeaderLineStroke.Length);
+                            LineStroke ls = new LineStroke(currCanvas, drewTime);
+                            foreach(string circle in SplitFromLineStroke(c.XamlElement))
+                            {
+                                ls.Add(XamlReader.Parse(circle) as Ellipse);
+                            }
+                            ctrls.Add(ls);
+                            continue;
+                        }
+
                         var element = XamlReader.Parse(c.XamlElement) as FrameworkElement;
-                        
                         ctrls.Add(new Drawable(currCanvas, element, drewTime));
                     }
                     else

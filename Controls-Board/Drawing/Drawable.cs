@@ -22,22 +22,31 @@ namespace Controls_Board.Drawing
         public FrameworkElement Element { get; }
         public DateTime DrewTime { get;}
 
-        public Drawable(Canvas canvas, FrameworkElement element, DateTime drewTime)
+        public Drawable(Canvas canvas, DateTime drewTime)
         {
             Canvas = canvas;
-            Element = element;
             DrewTime = drewTime;
         }
+        public Drawable(Canvas canvas, FrameworkElement element, DateTime drewTime):this(canvas, drewTime)
+        {
+            Element = element;
+        }
 
-        public void Draw()
+        /// <summary>
+        /// Capturer call Draw() when Redo
+        /// </summary>
+        public virtual void Draw()
         {
             Canvas.Children.Add(Element);
         }
-        public void Delete()
+        /// <summary>
+        /// Capturer call Delete() when Undo
+        /// </summary>
+        public virtual void Delete()
         {
             Canvas.Children.Remove(Element);
         }
-        public string ToCtrb()
+        public virtual string ToCtrb()
         {
             return $"{XamlWriter.Save(Element)}";
         }

@@ -15,69 +15,69 @@ namespace Controls_Board.Drawing
     public class Pen
     {
         
-        public Brush Stroke { 
-            get { return polyLine.Stroke; } 
-            set { stroke = value; } 
-        }
-        public double StrokeThickness { 
-            get { return polyLine.StrokeThickness; }
-            set { strokeThickness = value; } 
-        }
+        public Brush Stroke { get; set; }
+        public double StrokeThickness { get; set; } = 5;
 
-        public int IgnoreDrawingRange { get; set; } = 5;
-
-        public bool IsUp { get; private set; } = true;
-        private Brush stroke;
-        private double strokeThickness;
+        public bool IsUp { get; private set; } = true; //One Up down = One capture frame
         private Canvas target;
-        private Polyline polyLine;
+        private LineStroke ls;
         private Point mousePoint;
 
-        public Pen(Canvas target)
+        public Pen(Canvas target, double strokeThickness)
         {
             this.target = target;
-            polyLine = new Polyline();
             Stroke = Brushes.Black;
-            StrokeThickness = 3f;
-            this.target.Children.Add(polyLine);
+            StrokeThickness = strokeThickness;
         }
-
+        #region LineStroke -> Drawing line
+        /// <summary>
+        /// Move() make shapes follow the Mouse
+        /// </summary>
         public void Move(MouseEventArgs e)
         {
-            if (IsUp)
+            if (IsUp || ls == null)
                 return;
 
             mousePoint = e.GetPosition(target);
-            polyLine.Points.Add(mousePoint);
+            var c = new Ellipse
+            {
+                Width = StrokeThickness,
+                Height = StrokeThickness,
+                Fill = Stroke,
+                Margin = new Thickness(mousePoint.X, mousePoint.Y, 0, 0),
+            };
+
+            ls.Add(c);
+            ls.AddCircleToCanvas(c);
         }
+        /// <summary>
+        /// Down() add shapes to target canvas.
+        /// </summary>
         public void Down()
         {
             if (!IsUp)
                 throw new DrawingException("Down method called before up");
-            polyLine = new Polyline();
-            polyLine.Stroke = stroke;
-            polyLine.StrokeThickness = strokeThickness;
-            target.Children.Add(polyLine);
+            ls = new LineStroke(target, DateTime.Now);
 
             IsUp = false;
         }
-
+        /// <summary>
+        /// Up() make new Line(as many circles) or complete a Shape.
+        /// </summary>
         public Drawable Up()
         {
-            if (IsUp)
+            if (IsUp || ls == null)
                 throw new DrawingException("Up method called after up");
 
             IsUp = true;
 
-            if (mousePoint == null || polyLine.Points.Count < IgnoreDrawingRange)
+            if (mousePoint == null)
             {
                 return null;
             }
-                
 
-            var stroke = new LineStroke(target, polyLine, DateTime.Now);
-
-            return stroke;
+            return ls;
         }
+        #endregion
     }
 }

@@ -20,15 +20,12 @@ namespace Controls_Board.CTRBFormat
     public class Structure
     {
         /*
-         * 
-         * $seek=value
-         * 
-         * .value1
-         * .value2
-         * .value3
-         * 
-         * 
-         */
+          
+         $seek=value
+         .header xaml+xaml/datetime
+         .xaml/datetime
+        
+        */
 
         public int Seek { get; set; }
         public Drawable[] Controls { get; set; } 
@@ -51,7 +48,6 @@ namespace Controls_Board.CTRBFormat
             sb.Append($"$seek={Seek}\n");
             foreach(var c in Controls)
             {
-                Debug.WriteLine($"Date : {c.DrewTime.ToString(CTRB.DateTimeFormat)}");
                 sb.Append($".{c.ToCtrb()}/{c.DrewTime.ToString(CTRB.DateTimeFormat)}\n");
             }
             Built = sb.ToString();
