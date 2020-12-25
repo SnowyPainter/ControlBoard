@@ -4,15 +4,18 @@
              xmlns:local="clr-namespace:Controls_Board"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <SolidColorBrush x:Key="Background">#57391E</SolidColorBrush>
+        
+        
+        
+        <SolidColorBrush x:Key="Background">#04c4d9</SolidColorBrush>
         <SolidColorBrush x:Key="Foreground">#2b2706</SolidColorBrush>
         <SolidColorBrush x:Key="BoardColor">#FFFFFF</SolidColorBrush>
-        <SolidColorBrush x:Key="ItemElementColor">#ffcf75</SolidColorBrush>
-        <SolidColorBrush x:Key="ItemElementStrong">#fac155</SolidColorBrush>
-        <SolidColorBrush x:Key="PanelColor">#FFFFF5E4</SolidColorBrush>
-        <SolidColorBrush x:Key="BorderColor">#CCA85A</SolidColorBrush>
+        <SolidColorBrush x:Key="ItemElementColor">#F2A03D</SolidColorBrush>
+        <SolidColorBrush x:Key="ItemElementStrong">#D9896C</SolidColorBrush>
+        <SolidColorBrush x:Key="PanelColor">#FFF</SolidColorBrush>
+        <SolidColorBrush x:Key="BorderColor">#4b72a6</SolidColorBrush>
 
-        <SolidColorBrush x:Key="Hover">#80542d</SolidColorBrush>
+        <SolidColorBrush x:Key="Hover">#4b72a6</SolidColorBrush>
         <SolidColorBrush x:Key="Warning">#de3e1b</SolidColorBrush>
 
         <Style x:Key="Button" TargetType="Button">

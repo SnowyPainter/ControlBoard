@@ -117,9 +117,9 @@ namespace Controls_Board {
         /// <summary>
         ///   ./control-structure.json과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
-        internal static string Path {
+        internal static string StructurePath {
             get {
-                return ResourceManager.GetString("Path", resourceCulture);
+                return ResourceManager.GetString("StructurePath", resourceCulture);
             }
         }
     }

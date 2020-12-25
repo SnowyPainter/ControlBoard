@@ -11,7 +11,7 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="35*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" HorizontalAlignment="Stretch" Background="{StaticResource Background}" MouseDown="Window_MouseDown">
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch" Background="{DynamicResource BorderColor}" MouseDown="Window_MouseDown">
             <StackPanel Orientation="Horizontal" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Button Style="{StaticResource CommonButton}" Content="⚙️" x:Name="SettingButton" Width="40" Height="30" HorizontalAlignment="Right" Click="OpenPropertyButton_Click"/>
                 <Button Style="{StaticResource CommonButton}" Content="Save To Image" x:Name="SaveImageBtn" Width="95" Click="CaptureCanvasBtn_Clicked"/>
@@ -45,7 +45,7 @@
                             </Style>
                         </StackPanel.Resources>
                         <Border Height="101">
-                            <Grid Width="60" MouseLeftButtonUp="ClearCanvasAndCapturer_MouseUp" Background="{StaticResource Background}" Height="101">
+                            <Grid Width="60" MouseLeftButtonDown="ClearCanvasAndCapturer_MouseDown"  Background="{StaticResource Warning}" Height="101">
                                 <Image Source="/Icons/reloadicon.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30"/>
                             </Grid>
                         </Border>
@@ -58,24 +58,34 @@
                                     <Setter Property="Background" Value="{x:Null}"/>
                                 </Style>
                             </Border.Resources>
-                            <StackPanel Orientation="Horizontal">
-                                <StackPanel Orientation="Vertical" Width="45" Height="78">
-                                    <Button Click="SaveCanvasBtn_Clicked" Height="40" Width="40">
+
+                            <Grid Width="105">
+                                <Grid.Resources>
+                                    <Style TargetType="StackPanel">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource CommonButton}">
+                                        <Setter Property="Width" Value="45"/>
+                                        <Setter Property="Height" Value="45"/>
+                                    </Style>
+                                </Grid.Resources>
+                                <StackPanel Orientation="Vertical" Margin="5,0,0,0" HorizontalAlignment="Left">
+                                    <Button Click="SaveCanvasBtn_Clicked">
                                         <Image Source="/Icons/saveicon.png"/>
                                     </Button>
-                                    <Button Click="OpenCanvasBtn_Clicked" Height="40" Width="40">
+                                    <Button Click="OpenCanvasBtn_Clicked">
                                         <Image Source="/Icons/openicon.png"/>
                                     </Button>
                                 </StackPanel>
-                                <StackPanel Orientation="Vertical" Width="45" Height="78">
-                                    <Button Click="RecordCanvasBtn_Clicked" Height="40" Width="40">
+                                <StackPanel Orientation="Vertical" Margin="0,0,5,0" HorizontalAlignment="Right">
+                                    <Button Click="RecordCanvasBtn_Clicked">
                                         <Image Source="/Icons/recordoff.png"/>
                                     </Button>
-                                    <Button Click="CaptureCanvasBtn_Clicked" Height="40" Width="40">
+                                    <Button Click="CaptureCanvasBtn_Clicked" >
                                         <Image Source="/Icons/captureicon.png"/>
                                     </Button>
                                 </StackPanel>
-                            </StackPanel>
+                            </Grid>
                         </Border>
                         <Border BorderThickness="2" Width="89" Padding="3,3,3,3" BorderBrush="{StaticResource BorderColor}" >
                             <Border.Resources>
@@ -96,12 +106,14 @@
                                 <Style TargetType="RadioButton">
                                     <Setter Property="FontSize" Value="15" />
                                     <Setter Property="HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="Margin" Value="0,0,0,5"/>
+                                    <Setter Property="Margin" Value="0,0,0,0"/>
                                 </Style>
                             </Border.Resources>
-                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Height="64" Width="86">
-                                <Grid x:Name="PenColor" Background="White" Height="30" Width="80"/>
-                                <Slider x:Name="EraseThickSlider" Maximum="50" Minimum="2" Margin="0,8,0,0" Value="2" Width="77" Height="20"/>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Height="64" Width="84">
+
+                                <Grid x:Name="PenColor" Height="30" Margin="0,2,-1,2"/>
+
+                                <Slider x:Name="EraseThickSlider" Maximum="35" Minimum="2" Margin="0,8,0,0" Value="2" Width="78" Height="23" Foreground="White" BorderBrush="{x:Null}"/>
                             </StackPanel>
                         </Border>
                         <Border BorderThickness="2" Width="230" Padding="3,3,3,3" BorderBrush="{StaticResource BorderColor}" >
@@ -138,7 +150,7 @@
                         <Border BorderThickness="2" Width="80" Padding="3,3,3,3" BorderBrush="{StaticResource BorderColor}" >
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="70" Margin="0,9,0,6">
 
-                                <Button Content="Pick" Click="OpenColorPicker_Clicked" BorderBrush="{x:Null}" Background="#FFECECEC" Foreground="Black" Width="66" Height="45"/>
+                                <Button Style="{StaticResource CommonButton}" Content="Pick" Click="OpenColorPicker_Clicked" Width="66" Height="45"/>
                                 <TextBlock Text="Pick a Color" TextAlignment="Center" Width="64" FontSize="11"/>
 
                             </StackPanel>

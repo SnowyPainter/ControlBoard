@@ -135,7 +135,7 @@
   <data name="Name" xml:space="preserve">
     <value>name</value>
   </data>
-  <data name="Path" xml:space="preserve">
+  <data name="StructurePath" xml:space="preserve">
     <value>./control-structure.json</value>
   </data>
 </root>

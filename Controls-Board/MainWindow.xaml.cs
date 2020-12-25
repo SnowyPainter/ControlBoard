@@ -28,6 +28,7 @@ namespace Controls_Board
 
     public partial class MainWindow : Window
     {
+        #region Inits
         private void InitPalettes()
         {
             //Color init
@@ -42,20 +43,27 @@ namespace Controls_Board
             selectedTool = Drawing.DrawTool.Pen;
 
             capturer = new Drawing.Capturer();
-            pen = new Drawing.Pen(DrawCanvas);
+            pen = new Drawing.Pen(DrawCanvas, EraseThickSlider.Value);
         }
+
+        private static ControlDownload.ControlDownloader downloader;
 
         private void InitCommonControlsList()
         {
             if (!Directory.Exists($"./{ControlStructureProperty.IconDirectory}"))
-                Directory.CreateDirectory(ControlStructureProperty.IconDirectory);
-            if (!File.Exists(ControlStructureProperty.Path))
             {
-                MessageBox.Show("It couldn't find its control structure.\nPlease visit https://github.com/snowypainter/Control-Board");
-                return;
+                Directory.CreateDirectory(ControlStructureProperty.IconDirectory);
+
+                //Download Basics
+                //Unzip folder
+            }
+            if (!File.Exists(ControlStructureProperty.StructurePath))
+            {
+                //Download that for Basics
+                //Load controls -> json obj -> update current structure file
             }
 
-            var ctrlStruct = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(ControlStructureProperty.Path));
+            var ctrlStruct = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(ControlStructureProperty.StructurePath));
 
             if (ctrlStruct.ContainsKey(ControlStructureProperty.Basics)
                     && ctrlStruct[ControlStructureProperty.Basics].Count() >= 1)
@@ -79,10 +87,10 @@ namespace Controls_Board
             if (ctrlStruct.ContainsKey(ControlStructureProperty.Customs)
                     && ctrlStruct[ControlStructureProperty.Customs].Count() >= 1)
             {
-
+                //Add custom controls
             }
         }
-
+        #endregion
         public MainWindow()
         {
             InitializeComponent();
@@ -97,31 +105,31 @@ namespace Controls_Board
             InitCommonControlsList();
         }
 
-        //******************
-        //Control Lists
-        //******************
+        #region Control Lists
         private ControlItem currSelected = null;
         private SolidColorBrush listItemColor = (SolidColorBrush)Application.Current.Resources["ItemElementColor"];
         private SolidColorBrush listItemSelectedColor = (SolidColorBrush)Application.Current.Resources["ItemElementStrong"];
         private void ControlItem_Selected(object sender, MouseEventArgs e)
         {
+            //컨트롤 선택
             var select = (sender as ControlItem);
 
             if (currSelected != null)
                 currSelected.Background = listItemColor;
-            if(currSelected == select)
+            if (currSelected == select)
             {
                 select.Background = listItemColor;
                 currSelected = null;
                 return;
             }
 
+            //Control Brush....
+
             currSelected = select;
             currSelected.Background = listItemSelectedColor;
         }
-        //*******************
-        //Canvas
-        //*******************
+        #endregion
+        #region Canvas
 
         Drawing.DrawTool selectedTool;
         private Border selectedPaletteBorder { get; set; }
@@ -153,24 +161,22 @@ namespace Controls_Board
                     break;
                 default:
                     selectedTool = Drawing.DrawTool.None; //Something Bug
-                    MessageBox.Show("Something must not be happen happened");
+                    new MessageBox.Alert("Something must not be happen happened").ShowDialog();
                     break;
             }
         }
 
         private void DrawCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (pen.IsUp)
-            {
-                pen.Stroke = selectedTool == Drawing.DrawTool.Eraser ? Brushes.White : currPenColor;
-                pen.StrokeThickness = EraseThickSlider.Value; //selectedTool == Drawing.DrawTool.Eraser ? 5f : 3f;
-                pen.Down();
-            }
+            if (!pen.IsUp)
+                return;
 
+            pen.Stroke = selectedTool == Drawing.DrawTool.Eraser ? Brushes.White : currPenColor;
+            pen.StrokeThickness = EraseThickSlider.Value;
+            pen.Down();
         }
         private void DrawCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            //Add Command
             if (pen.IsUp)
                 return;
 
@@ -218,10 +224,8 @@ namespace Controls_Board
             b.BorderThickness = new Thickness(3f);
             b.BorderBrush = Brushes.BurlyWood;
         }
-        // ******************
-        // Window interaction
-        // ******************
-
+        #endregion
+        #region Window interaction
         private WindowState currentState
         {
             get
@@ -305,8 +309,11 @@ namespace Controls_Board
         {
             this.DragMove();
         }
-        private void ClearCanvasAndCapturer_MouseUp(object sender, RoutedEventArgs e)
+        private void ClearCanvasAndCapturer_MouseDown(object sender, RoutedEventArgs e)
         {
+            var okbox = new MessageBox.OkMessageBox("Really clear this canvas?");
+            okbox.ShowDialog();
+            if (!okbox.Ok()) return;
             capturer = new Drawing.Capturer();
             DrawCanvas.Children.Clear();
         }
@@ -317,7 +324,7 @@ namespace Controls_Board
             saveFileDialog.Filter = "CTRB File (*.ctrb) | *.ctrb";
             if (saveFileDialog.ShowDialog() == true && CTRBFormat.CTRB.Save(capturer, saveFileDialog.FileName))
             {
-                MessageBox.Show("Successfully saved!");
+                Debug.WriteLine("Saved");
             }
 
         }
@@ -338,10 +345,13 @@ namespace Controls_Board
 
             if (currentState != WindowState.Maximized)
             {
-                var result = MessageBox.Show("The result of recording will be low quality.", "Is it ok?", MessageBoxButton.OKCancel);
-                if (result == MessageBoxResult.Cancel)
+                var okbox = new MessageBox.OkMessageBox("The result of recording will be low quality.");
+                okbox.ShowDialog();
+                if (!okbox.Ok())
                     return;
             }
+
+            //record ...
 
         }
 
@@ -364,5 +374,6 @@ namespace Controls_Board
         {
             this.Close();
         }
+        #endregion
     }
 }

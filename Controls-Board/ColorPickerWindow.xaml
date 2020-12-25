@@ -5,12 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Controls_Board"
         mc:Ignorable="d"
-        Title="ColorPickerWindow" SizeToContent="WidthAndHeight" ResizeMode="NoResize" Width="424" Height="314">
+        Title="ColorPickerWindow" SizeToContent="WidthAndHeight" ResizeMode="NoResize" Width="399" Height="245">
     <StackPanel Orientation="Vertical">
-        <local:ColorPicker x:Name="ColorPicker" Height="269" Width="420"/>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="30">
-            <Button Content="Cancel" VerticalAlignment="Bottom" Margin="0,0,5,0" Height="25" Width="48" Click="Cancel_Clicked" RenderTransformOrigin="0.4,-0.038"/>
-            <Button Content="Ok" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,0" Height="25" Width="40" Click="Ok_Clicked"/>
-        </StackPanel>
+        <local:ColorPicker x:Name="ColorPicker" Height="190" Width="420"/>
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Margin" Value="5,5,5,5"/>
+                    <Setter Property="Width" Value="100"/>
+                    <Setter Property="Height" Value="30"/>
+                </Style>
+            </Grid.Resources>
+            <Button Content="Ok" Click="Ok_Clicked" HorizontalAlignment="Left" Margin="115,5,0,5" Width="279" FontWeight="Normal"/>
+            <Button Content="Cancel" Click="Cancel_Clicked" HorizontalAlignment="Left" Foreground="White" BorderBrush="{x:Null}" Background="Red" />
+        </Grid>
+
     </StackPanel>
 </Window>
